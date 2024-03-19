@@ -152,6 +152,16 @@ static void __ref do_deferred_initcalls(struct work_struct *work)
 static DECLARE_WORK(deferred_initcall_work, do_deferred_initcalls);
 #endif
 
+bool is_legacy_ebpf = false;
+EXPORT_SYMBOL(is_legacy_ebpf);
+
+static int __init read_is_legacy_ebpf(char *s)
+{
+    strtobool(s, &is_legacy_ebpf);
+    return 1;
+}
+__setup("init.is_legacy_ebpf=", read_is_legacy_ebpf);
+
 /*
  * Debug helper: via this flag we know that we are in 'early bootup code'
  * where only the boot processor is running with IRQ disabled.  This means
